@@ -1,13 +1,9 @@
 // highlightly.js
 
 // Cài đặt axios trước bằng: npm install axios
-const express = require('express');
 const axios = require('axios');
-const app = express();
 const port = 3000;
 
-// Middleware
-app.use(express.json());
 // Cấu hình API
 // Thay YOUR_RAPIDAPI_KEY bằng API Key mà bạn nhận được từ RapidAPI
 const RAPIDAPI_KEY = '2c398aa8-92a5-4713-8f5e-554999597f8e';
