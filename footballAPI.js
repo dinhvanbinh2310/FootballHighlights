@@ -75,38 +75,6 @@ async function getHighlights(query = {}) {
     }
 }
 
-// Ví dụ sử dụng các hàm trên
-async function main() {
-    try {
-        // Lấy danh sách quốc gia
-        const countries = await getCountries();
-        console.log('Danh sách quốc gia:', countries);
-
-        // Lấy danh sách giải đấu (ví dụ: các giải đấu ở Pháp năm 2023)
-        const leagues = await getLeagues({ countryCode: 'FR', season: 2023 });
-        console.log('Danh sách giải đấu:', leagues);
-
-        // Lấy danh sách đội bóng (ví dụ: tìm kiếm đội Montpellier)
-        const teams = await getTeams({ name: 'Montpellier' });
-        console.log('Danh sách đội bóng:', teams);
-
-        // Lấy danh sách trận đấu (ví dụ: các trận đấu vào ngày 2023-08-06 thuộc giải có id 133)
-        const matches = await getMatches({ date: '2023-08-06', leagueId: 133 });
-        console.log('Danh sách trận đấu:', matches);
-
-        // Lấy danh sách highlights (ví dụ: các highlights từ giải có id 133)
-        const highlights = await getHighlights({ leagueId: 133 });
-        console.log('Danh sách highlights:', highlights);
-    } catch (error) {
-        console.error('Lỗi trong hàm main:', error.message);
-    }
-}
-
-// Nếu chạy file trực tiếp, gọi hàm main
-if (require.main === module) {
-    main();
-}
-
 // Xuất các hàm để có thể sử dụng lại trong module khác nếu cần
 module.exports = {
     getCountries,
