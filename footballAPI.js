@@ -1,15 +1,48 @@
 // highlightly.js
 
 // Cài đặt axios trước bằng: npm install axios
+require("dotenv").config(); 
 const axios = require('axios');
 const express = require('express');
+const session = require("express-session"); // Middleware quản lý session
+const passport = require("./passport"); // Cấu hình xác thực với Passport.js
 const cors = require('cors');
 
 const app = express();
-const port = 5000;
+const port = 3000;
 
-app.use(cors()); // Cho phép gọi API từ frontend
-app.use(express.json()); // Hỗ trợ xử lý JSON trong request
+
+// Cấu hình session cho Express
+app.use(cors({
+    origin: "http://localhost:5173",  // Chỉ cho phép frontend này
+    credentials: true                  // Cho phép gửi cookie & header xác thực
+}));
+
+app.use(session({
+    secret: process.env.SESSION_SECRET || "my_secret_key",
+    resave: false,
+    saveUninitialized: false
+}));
+
+app.use(passport.initialize()); // Khởi tạo Passport middleware
+app.use(passport.session()); // Passport sử dụng session
+
+// API gửi dữ liệu user sau khi đăng nhập
+app.post("/send-user-data", (req, res) => {
+    if (!req.user) {
+      return res.status(401).send("Lỗi xác thực: Không có user"); 
+    }
+
+    axios
+        .post("https://your-api.com/user-data", {
+            name: req.user.displayName, // Lấy tên từ Google
+            email: req.user.emails[0].value, // Lấy email từ Google
+            photoURL: req.user.photos[0].value, // Ảnh từ Google
+        })
+        .then((response) => res.json(response.data.data)) // Trả về dữ liệu từ API
+        .catch((error) => res.status(500).send(error.message)); // Xử lý lỗi
+});
+
 
 // Cấu hình API
 // Thay YOUR_RAPIDAPI_KEY bằng API Key mà bạn nhận được từ RapidAPI
@@ -35,6 +68,42 @@ const apiClient = axios.create({
 app.get('/', (req, res) => {
     res.send('Server đang chạy! Hãy thử gọi API ở /api/matches/today');
 });
+
+//  GET API google
+app.get("/auth/google",
+    passport.authenticate("google", { scope: ["profile", "email"] })
+);
+
+// Route callback sau khi Google xác thực
+app.get("/auth/google/callback",
+    passport.authenticate("google", { failureRedirect: "/" }),
+    (req, res) => {
+        if (!req.user) {
+            return res.status(401).send("Lỗi xác thực: Không có user");
+        }
+
+        // ✅ Sau khi xác thực thành công, chuyển hướng về frontend kèm user info
+        res.redirect(`http://localhost:5173/dashboard?name=${encodeURIComponent(req.user.displayName)}&email=${encodeURIComponent(req.user.emails[0].value)}`);
+    }
+);  
+
+//Thêm API để lấy thông tin người dùng sau khi đăng nhập
+app.get("/auth/user", (req, res) => {
+    if (req.isAuthenticated()) {
+        res.json(req.user);
+    } else {
+        res.status(401).json({ message: "Chưa đăng nhập" });
+    }
+});
+
+//API đăng xuất
+app.get("/logout", (req, res) => {
+    req.logout((err) => {
+        if (err) { return res.status(500).send("Lỗi đăng xuất"); }
+        res.redirect("http://localhost:5173"); // Quay về frontend sau khi đăng xuất
+    });
+});
+
 
 app.get('/api/countries', async (req, res) => {
     try {
@@ -77,9 +146,8 @@ app.get('/api/matches', async (req, res) => {
 
         const response = await apiClient.get('/matches', { params: { date, leagueId, limit: 10, offset: 0 } });
         response.data.data.forEach(match => matches.push(match));
-
-        res.json(matches);
         console.log('Danh sách trận đấu:', matches);
+        res.json(matches);
     } catch (error) {
         console.error('Lỗi khi lấy danh sách trận đấu:', error.response ? error.response.data : error.message);
         res.status(500).json({ error: 'Lỗi khi lấy danh sách trận đấu' });
@@ -114,13 +182,8 @@ app.get('/api/highlights', async (req, res) => {
         console.error('Lỗi khi lấy highlights:', error.response ? error.response.data : error.message);
         res.status(500).json({ error: 'Lỗi khi lấy highlights' });
     }
-}
+})
 
-// Xuất các hàm để có thể sử dụng lại trong module khác nếu cần
-module.exports = {
-    getCountries,
-    getLeagues,
-    getTeams,
-    getMatches,
-    getHighlights,
-};
+app.listen(port, () => {
+    console.log(`Server đang chạy trên cổng http://localhost:${port}`);
+});
