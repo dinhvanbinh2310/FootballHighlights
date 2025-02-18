@@ -23,14 +23,15 @@ const SchedulePage = () => {
         };
 
         fetchMatches();
-    });
+    }, []);
     // Trạng thái để lưu trữ lựa chọn giải đấu
     const [selectedLeague, setSelectedLeague] = useState("");
     const leagues = [...new Set(matches.map(match => match.league.name))];
     // Hàm để lọc trận đấu theo giải đấu
-    const filteredMatches = matches.filter(
-        match => match.league.name === selectedLeague
-    );
+    const filteredMatches = selectedLeague
+        ? matches.filter(match => match.league.name === selectedLeague)
+        : matches;
+
     return (
         <div className="max-w-4xl mx-auto p-6">
             {/* Tiêu đề trang */}
@@ -42,7 +43,7 @@ const SchedulePage = () => {
                 onChange={(e) => setSelectedLeague(e.target.value)}
                 value={selectedLeague}
             >
-                <option value="">Chọn giải đấu</option>
+                <option value="">Tát cả giải đấu</option>
                 {leagues.map((league, index) => (
                     <option key={index} value={league}>
                         {league}
