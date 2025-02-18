@@ -5,6 +5,7 @@ import Footer from './components/Footer.jsx';
 import Home from './components/Home.jsx'; // Trang Home hoặc các trang khác 
 import Schedule from './components/Schedule.jsx'; // Trang Lịch Thi Đấu
 import { AuthProvider } from "../src/AuthContext"; // Import context để quản lý trạng thái xác thực
+import './App.css';
 
 function App() {
   return (
@@ -14,7 +15,7 @@ function App() {
         <Schedule />
         <Footer />
       </AuthProvider>
-    </div> 
+    </div>
   );
 }
 

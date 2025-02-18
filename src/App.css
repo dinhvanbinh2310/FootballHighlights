@@ -1,0 +1,7 @@
+.team-logo {
+    width: 40px;
+    /* Điều chỉnh kích thước theo ý bạn */
+    height: 40px;
+    object-fit: contain;
+    /* Đảm bảo ảnh không bị méo */
+}
