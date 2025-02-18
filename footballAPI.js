@@ -1,7 +1,7 @@
 // highlightly.js
 
 // Cài đặt axios trước bằng: npm install axios
-require("dotenv").config(); 
+require("dotenv").config();
 const axios = require('axios');
 const express = require('express');
 const session = require("express-session"); // Middleware quản lý session
@@ -30,7 +30,7 @@ app.use(passport.session()); // Passport sử dụng session
 // API gửi dữ liệu user sau khi đăng nhập
 app.post("/send-user-data", (req, res) => {
     if (!req.user) {
-      return res.status(401).send("Lỗi xác thực: Không có user"); 
+        return res.status(401).send("Lỗi xác thực: Không có user");
     }
 
     axios
@@ -46,7 +46,7 @@ app.post("/send-user-data", (req, res) => {
 
 // Cấu hình API
 // Thay YOUR_RAPIDAPI_KEY bằng API Key mà bạn nhận được từ RapidAPI
-const RAPIDAPI_KEY = '32ad4109-659e-417e-a70f-53593f27db15';
+const RAPIDAPI_KEY = 'ce6e3590-af84-411e-880c-85c97a11cb7f';
 const RAPIDAPI_HOST = 'https://soccer.highlightly.net';
 
 const matches = [
@@ -85,7 +85,7 @@ app.get("/auth/google/callback",
         // ✅ Sau khi xác thực thành công, chuyển hướng về frontend kèm user info
         res.redirect(`http://localhost:5173/dashboard?name=${encodeURIComponent(req.user.displayName)}&email=${encodeURIComponent(req.user.emails[0].value)}`);
     }
-);  
+);
 
 //Thêm API để lấy thông tin người dùng sau khi đăng nhập
 app.get("/auth/user", (req, res) => {
@@ -144,7 +144,7 @@ app.get('/api/matches', async (req, res) => {
         // Xoá dữ liệu cũ
         matches.length = 0;
 
-        const response = await apiClient.get('/matches', { params: { date, leagueId, limit: 10, offset: 0 } });
+        const response = await apiClient.get('/matches', { params: { date, leagueId, limit: 100, offset: 0 } });
         response.data.data.forEach(match => matches.push(match));
         console.log('Danh sách trận đấu:', matches);
         res.json(matches);
