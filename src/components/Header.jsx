@@ -1,11 +1,12 @@
-import React, { useContext, useEffect } from 'react';
-import './styles/Header.css';
+import React, { useContext, useEffect } from "react";
+import { Button, Avatar } from "@mui/material";
 import { AuthContext } from "../AuthContext";
+import "./styles/Header.css";
 
 function Header() {
     const { user } = useContext(AuthContext);
 
-    console.log("User data rin Header.js:", user); // 👈 Debug dữ liệu user nhận đượcr
+    console.log("User data in Header.js:", user); // Debug dữ liệu user nhận được
 
     useEffect(() => {
         console.log("User Data:", user); // Kiểm tra dữ liệu user khi đăng nhập
@@ -21,7 +22,7 @@ function Header() {
 
     return (
         <header className="header">
-            <h1>My App</h1>
+            <h1>TwoFootball</h1>
             <nav>
                 <ul>
                     <li><a href="/">Trang chủ</a></li>
@@ -29,19 +30,34 @@ function Header() {
                     <li><a href="/contact">Liên hệ</a></li>
                 </ul>
             </nav>
+
             <div className="auth-buttons">
                 {user ? (
                     <>
-                        <span>Xin chào, {user.displayName}</span>
+                        <span className="welcome-text">Xin chào, {user.displayName}</span>
                         {user.photoURL ? (
-                            <img src={user.photoURL} alt="Avatar" className="avatar" />
+                            <Avatar src={user.photoURL} alt="Avatar" className="avatar" />
                         ) : (
-                            <span>Không có avatar</span>
+                            <Avatar className="avatar">U</Avatar> // Avatar mặc định nếu không có ảnh
                         )}
-                        <button onClick={logout}>Đăng xuất</button>
+                        <Button
+                            variant="contained"
+                            color="error"
+                            className="auth-button"
+                            onClick={logout}
+                        >
+                            Đăng xuất
+                        </Button>
                     </>
                 ) : (
-                    <button onClick={loginWithGoogle}>Đăng nhập với Google</button>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        className="auth-button"
+                        onClick={loginWithGoogle}
+                    >
+                        Đăng nhập với Google
+                    </Button>
                 )}
             </div>
         </header>

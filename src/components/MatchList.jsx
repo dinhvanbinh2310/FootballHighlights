@@ -4,7 +4,6 @@ import { TableBody, TableRow, TableCell } from "@mui/material";
 import axios from "axios";
 import { AuthContext } from "../AuthContext";
 
-
 const MatchList = () => {
     const { user } = useContext(AuthContext);
     const [matches, setMatches] = useState([]);
@@ -46,8 +45,14 @@ const MatchList = () => {
                 <TableRow key={index}>
                     <TableCell>{match.date}</TableCell>
                     <TableCell>{match.round}</TableCell>
+                    <TableCell>
+                        <img src={match.homeLogo} alt={match.homeTeam} className="team-logo" />
+                    </TableCell>
                     <TableCell>{match.homeTeam.name}</TableCell>
                     <TableCell>{match.awayTeam.name}</TableCell>
+                    <TableCell>
+                        <img src={match.awayLogo} alt={match.awayTeam} className="team-logo" />
+                    </TableCell>
                     <TableCell>{match.league.name}</TableCell>
                 </TableRow>
             ))}

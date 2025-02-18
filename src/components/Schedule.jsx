@@ -1,24 +1,32 @@
 import React from "react";
-import { Card, CardContent, Table, TableHead, TableRow, TableCell } from "@mui/material";
+import { Card, CardContent, Table, TableHead, TableRow, TableCell, Typography } from "@mui/material";
 import MatchList from "./MatchList"; // Đảm bảo đường dẫn đúng
 
 const SchedulePage = () => {
     return (
-        <div className="container mx-auto p-4">
-            <h1 className="text-2xl font-bold mb-4">Lịch Thi Đấu</h1>
-            <Card>
-                <CardContent>
-                    <Table>
+        <div className="max-w-4xl mx-auto p-6">
+            {/* Tiêu đề trang */}
+            <Typography variant="h4" className="text-center font-bold text-blue-600 mb-6">
+                Lịch Thi Đấu Mới Nhất
+            </Typography>
+
+            <Card className="shadow-lg rounded-xl border border-gray-200">
+                <CardContent className="bg-gray-100">
+                    <Table className="border rounded-lg overflow-hidden">
+                        {/* Tiêu đề cột với thiết kế nổi bật */}
                         <TableHead>
-                            <TableRow>
-                                <TableCell>Ngày</TableCell>
-                                <TableCell>Giờ</TableCell>
-                                <TableCell>Đội 1</TableCell>
-                                <TableCell>Đội 2</TableCell>
-                                <TableCell>Địa điểm</TableCell>
+                            <TableRow className="bg-blue-500 text-white">
+                                <TableCell className="text-white font-bold text-lg">Ngày</TableCell>
+                                <TableCell className="text-white font-bold text-lg">Mùa giải</TableCell>
+                                <TableCell className="text-white font-bold text-lg"></TableCell>
+                                <TableCell className="text-white font-bold text-lg">Đội nhà</TableCell>
+                                <TableCell className="text-white font-bold text-lg">Đội khách</TableCell>
+                                <TableCell className="text-white font-bold text-lg"></TableCell>
+                                <TableCell className="text-white font-bold text-lg">Địa điểm</TableCell>
                             </TableRow>
                         </TableHead>
-                        {/* Chèn component MatchList để hiển thị TableBody */}
+
+                        {/* Dữ liệu trận đấu */}
                         <MatchList />
                     </Table>
                 </CardContent>
