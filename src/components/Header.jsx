@@ -4,6 +4,7 @@ import { AuthContext } from "../AuthContext";
 import "./styles/Header.css";
 
 function Header() {
+
     const { user } = useContext(AuthContext);
 
     console.log("User data in Header.js:", user); // Debug dữ liệu user nhận được

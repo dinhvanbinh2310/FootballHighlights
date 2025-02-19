@@ -5,3 +5,45 @@
     object-fit: contain;
     /* Đảm bảo ảnh không bị méo */
 }
+
+.detail-button {
+    background-color: #3b82f6;
+    /* Màu nền xanh dương */
+    color: white;
+    /* Màu chữ trắng */
+    padding: 8px 16px;
+    /* Padding */
+    border: none;
+    /* Không viền */
+    border-radius: 8px;
+    /* Bo góc */
+    font-size: 14px;
+    /* Cỡ chữ */
+    font-weight: 500;
+    /* Độ đậm của chữ */
+    cursor: pointer;
+    /* Con trỏ chuột thành bàn tay */
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    /* Hiệu ứng chuyển đổi */
+}
+
+.detail-button:hover {
+    background-color: #2563eb;
+    /* Màu nền xanh dương đậm hơn khi hover */
+    transform: scale(1.05);
+    /* Phóng to nhẹ khi hover */
+}
+
+.detail-button:active {
+    background-color: #1d4ed8;
+    /* Màu nền xanh dương đậm hơn khi nhấn */
+    transform: scale(0.95);
+    /* Thu nhỏ nhẹ khi nhấn */
+}
+
+.detail-button:focus {
+    outline: none;
+    /* Loại bỏ viền mặc định khi focus */
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
+    /* Thêm shadow khi focus */
+}
