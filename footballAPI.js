@@ -46,7 +46,7 @@ app.post("/send-user-data", (req, res) => {
 
 // Cấu hình API
 // Thay YOUR_RAPIDAPI_KEY bằng API Key mà bạn nhận được từ RapidAPI
-const RAPIDAPI_KEY = 'ce6e3590-af84-411e-880c-85c97a11cb7f';
+const RAPIDAPI_KEY = '789995d4-6f2e-4cc8-991f-93c200dcfd2d';
 const RAPIDAPI_HOST = 'https://soccer.highlightly.net';
 
 const matches = [
@@ -146,14 +146,24 @@ app.get('/api/matches', async (req, res) => {
 
         const response = await apiClient.get('/matches', { params: { date, leagueId, limit: 100, offset: 0 } });
         response.data.data.forEach(match => matches.push(match));
-        console.log('Danh sách trận đấu:', matches);
         res.json(matches);
     } catch (error) {
         console.error('Lỗi khi lấy danh sách trận đấu:', error.response ? error.response.data : error.message);
         res.status(500).json({ error: 'Lỗi khi lấy danh sách trận đấu' });
     }
 });
+app.get('/api/matches/:id', async (req, res) => {
+    try {
+        const matchId = req.params.id;
+        console.log('Fetching match details for ID:', matchId);
 
+        const response = await apiClient.get(`/matches/${matchId}`);
+        res.json(response.data);
+    } catch (error) {
+        console.error('Lỗi khi lấy chi tiết trận đấu:', error.response ? error.response.data : error.message);
+        res.status(500).json({ error: 'Lỗi khi lấy chi tiết trận đấu' });
+    }
+});
 
 app.get('/api/highlights', async (req, res) => {
     try {
