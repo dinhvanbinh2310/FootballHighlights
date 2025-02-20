@@ -46,7 +46,7 @@ app.post("/send-user-data", (req, res) => {
 
 // Cấu hình API
 // Thay YOUR_RAPIDAPI_KEY bằng API Key mà bạn nhận được từ RapidAPI
-const RAPIDAPI_KEY = '789995d4-6f2e-4cc8-991f-93c200dcfd2d';
+const RAPIDAPI_KEY = 'b7a47ba1-4e27-490f-b51d-f24797a3ac4c';
 const RAPIDAPI_HOST = 'https://soccer.highlightly.net';
 
 const matches = [
